@@ -2,9 +2,9 @@ package ro.fortech.carfleet.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ro.fortech.carfleet.database.Database;
 import ro.fortech.carfleet.dto.CarDto;
 import ro.fortech.carfleet.model.Car;
+import ro.fortech.carfleet.service.CarServiceImpl;
 
 import java.util.List;
 
@@ -12,37 +12,37 @@ import java.util.List;
 @RequestMapping("/cars")
 public class CarController {
 
-  private final Database database;
+  public final CarServiceImpl carServiceImpl;
 
   @Autowired
-  public CarController(Database database) {
-    this.database = database;
+  public CarController(CarServiceImpl carServiceImpl) {
+    this.carServiceImpl = carServiceImpl;
   }
 
   @PostMapping
-  public Car addCar(@RequestBody CarDto body) {
-    return database.addCar(body);
+  public CarDto addCar(@RequestBody Car body) {
+    return carServiceImpl.saveCar(body);
   }
 
   @GetMapping
-  public List<Car> getAllCars() {
-    return database.getAllCars();
+  public List<CarDto> getAllCars() {
+    return carServiceImpl.getAllCars();
   }
 
   @GetMapping("/{id}")
-  public Car getCarById(@PathVariable("id") int id) {
-    return database.getCarById(id);
+  public CarDto getCarById(@PathVariable("id") int id) {
+    return carServiceImpl.getCarById(id);
   }
 
   @DeleteMapping("/{id}")
-  public Car deleteCar(@PathVariable("id") int id) {
-    return database.deleteCarById(id);
+  public CarDto deleteCar(@PathVariable("id") int id) {
+    return carServiceImpl.deleteCarById(id);
   }
 
   @PutMapping("/{id}")
-  public Car updateCar(@PathVariable("id") int id, @RequestBody CarDto body) {
+  public CarDto updateCar(@PathVariable("id") int id, @RequestBody Car body) {
     body.setId(id);
 
-    return database.updateCarById(body);
+    return carServiceImpl.updateCarById(id, body);
   }
 }
