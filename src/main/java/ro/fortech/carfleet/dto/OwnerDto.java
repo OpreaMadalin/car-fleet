@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OwnerDto {
 
-    private int age;
-    private String name;
+  private int id;
+  private int age;
+  private String name;
 }

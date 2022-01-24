@@ -6,5 +6,7 @@ import ro.fortech.carfleet.model.Car;
 
 @Mapper(componentModel = "spring")
 public interface CarMapper {
-  CarDto carToDto(Car car);
+  Car carDtoToCar(CarDto carDto);
+
+  CarDto carToCarDto(Car car);
 }

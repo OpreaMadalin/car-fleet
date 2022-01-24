@@ -1,19 +1,44 @@
 package ro.fortech.carfleet.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ro.fortech.carfleet.dto.CarDto;
+import ro.fortech.carfleet.mapper.CarMapper;
 import ro.fortech.carfleet.model.Car;
+import ro.fortech.carfleet.repository.CarRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CarService {
+@Service
+public class CarService {
 
-  CarDto saveCar(Car car);
+  private final CarMapper carMapper;
+  private final CarRepository carRepository;
 
-  List<CarDto> getAllCars();
+  @Autowired
+  public CarService(CarMapper carMapper, CarRepository carRepository) {
+    this.carMapper = carMapper;
+    this.carRepository = carRepository;
+  }
 
-  CarDto getCarById(int id);
+  public void saveCar(CarDto car) {
+    carRepository.save(carMapper.carDtoToCar(car));
+  }
 
-  CarDto deleteCarById(int id);
+  public List<Car> getAllCars() {
+    return carRepository.findAll();
+  }
 
-  CarDto updateCarById(int id, Car body);
+  public Optional<Car> getCarById(int id) {
+    return carRepository.findById(id);
+  }
+
+  public void deleteCarById(int id) {
+    carRepository.deleteById(id);
+  }
+
+  public void updateCarById(CarDto car) {
+    carRepository.save(carMapper.carDtoToCar(car));
+  }
 }
