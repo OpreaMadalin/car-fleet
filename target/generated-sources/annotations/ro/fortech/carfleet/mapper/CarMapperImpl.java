@@ -1,5 +1,7 @@
 package ro.fortech.carfleet.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import ro.fortech.carfleet.dto.CarDto;
@@ -9,7 +11,7 @@ import ro.fortech.carfleet.model.Owner;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-25T14:38:46+0200",
+    date = "2022-01-25T17:00:32+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -45,6 +47,20 @@ public class CarMapperImpl implements CarMapper {
         carDto.setOwner( ownerToOwnerDto( car.getOwner() ) );
 
         return carDto;
+    }
+
+    @Override
+    public List<CarDto> carToCarDtoList(List<Car> car) {
+        if ( car == null ) {
+            return null;
+        }
+
+        List<CarDto> list = new ArrayList<CarDto>( car.size() );
+        for ( Car car1 : car ) {
+            list.add( carToCarDto( car1 ) );
+        }
+
+        return list;
     }
 
     protected Owner ownerDtoToOwner(OwnerDto ownerDto) {

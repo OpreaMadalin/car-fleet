@@ -19,8 +19,4 @@ public class Owner {
 
   private int age;
   private String name;
-
-//  @JsonIgnore
-//  @OneToMany(mappedBy = "owner")
-//  private Set<Car> cars = new HashSet<>();
 }

@@ -21,7 +21,6 @@ public class Car {
   private String model;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
-  // @JoinColumn(name = "owner_id", referencedColumnName = "id")
   private Owner owner;
 
   public void assignOwner(Owner owner) {

@@ -5,56 +5,62 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.fortech.carfleet.dto.CarDto;
-import ro.fortech.carfleet.model.Car;
+import ro.fortech.carfleet.mapper.CarMapper;
 import ro.fortech.carfleet.service.CarService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cars")
 public class CarController {
 
-  public final CarService carServiceImpl;
+  private final CarMapper carMapper;
+  private final CarService carService;
 
   @Autowired
-  public CarController(CarService carServiceImpl) {
-    this.carServiceImpl = carServiceImpl;
+  public CarController(CarMapper carMapper, CarService carServiceImpl) {
+    this.carMapper = carMapper;
+    this.carService = carServiceImpl;
   }
 
   @PostMapping
-  public ResponseEntity<String> addCar(@RequestBody CarDto body) {
-    carServiceImpl.saveCar(body);
+  public ResponseEntity<String> addCar(@RequestBody CarDto carDto) {
+    carService.saveCar(carMapper.carDtoToCar(carDto));
 
     return new ResponseEntity<>("Saved", HttpStatus.OK);
   }
 
   @GetMapping
-  public List<Car> getAllCars() {
-    return carServiceImpl.getAllCars();
+  public List<CarDto> getAllCars() {
+    return carMapper.carToCarDtoList(carService.getAllCars());
   }
 
   @GetMapping("/{id}")
-  public Optional<Car> getCarById(@PathVariable("id") int id) {
-    return carServiceImpl.getCarById(id);
+  public List<CarDto> getCarById(@PathVariable("id") int id) {
+    return carMapper.carToCarDtoList(carService.getCarById(id));
   }
 
   @DeleteMapping("/{id}")
-  public void deleteCar(@PathVariable("id") int id) {
-    carServiceImpl.deleteCarById(id);
+  public ResponseEntity<String> deleteCarById(@PathVariable("id") int id) {
+    carService.deleteCarById(id);
+
+    return new ResponseEntity<>("Deleted", HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<String> updateCar(@PathVariable("id") int id, @RequestBody CarDto body) {
-    body.setId(id);
-    carServiceImpl.updateCarById(body);
+  public ResponseEntity<String> updateCarById(
+      @PathVariable("id") int id, @RequestBody CarDto carDto) {
+    carDto.setId(id);
+    carService.updateCarById(carMapper.carDtoToCar(carDto));
 
     return new ResponseEntity<>("Updated", HttpStatus.OK);
   }
 
   @PutMapping("/{carId}/ownerId/{ownerId}")
-  public void assignOwnerToCar(
+  public ResponseEntity<String> assignOwnerToCar(
       @PathVariable("carId") int carId, @PathVariable("ownerId") int ownerId) {
-    carServiceImpl.assignOwnerToCar(carId, ownerId);
+    carService.assignOwnerToCar(carId, ownerId);
+
+    return new ResponseEntity<>("Assigned", HttpStatus.OK);
   }
 }
