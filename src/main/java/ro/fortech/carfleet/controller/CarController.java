@@ -51,4 +51,10 @@ public class CarController {
 
     return new ResponseEntity<>("Updated", HttpStatus.OK);
   }
+
+  @PutMapping("/{carId}/ownerId/{ownerId}")
+  public void assignOwnerToCar(
+      @PathVariable("carId") int carId, @PathVariable("ownerId") int ownerId) {
+    carServiceImpl.assignOwnerToCar(carId, ownerId);
+  }
 }

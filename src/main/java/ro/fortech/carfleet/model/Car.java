@@ -1,7 +1,6 @@
 package ro.fortech.carfleet.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,6 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -23,5 +21,10 @@ public class Car {
   private String model;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
+  // @JoinColumn(name = "owner_id", referencedColumnName = "id")
   private Owner owner;
+
+  public void assignOwner(Owner owner) {
+    this.owner = owner;
+  }
 }

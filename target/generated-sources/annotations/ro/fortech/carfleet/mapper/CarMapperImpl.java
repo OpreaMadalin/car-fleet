@@ -5,12 +5,11 @@ import org.springframework.stereotype.Component;
 import ro.fortech.carfleet.dto.CarDto;
 import ro.fortech.carfleet.dto.OwnerDto;
 import ro.fortech.carfleet.model.Car;
-import ro.fortech.carfleet.model.Car.CarBuilder;
 import ro.fortech.carfleet.model.Owner;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-24T13:32:25+0200",
+    date = "2022-01-25T14:38:46+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -22,14 +21,14 @@ public class CarMapperImpl implements CarMapper {
             return null;
         }
 
-        CarBuilder car = Car.builder();
+        Car car = new Car();
 
-        car.id( carDto.getId() );
-        car.brand( carDto.getBrand() );
-        car.model( carDto.getModel() );
-        car.owner( ownerDtoToOwner( carDto.getOwner() ) );
+        car.setId( carDto.getId() );
+        car.setBrand( carDto.getBrand() );
+        car.setModel( carDto.getModel() );
+        car.setOwner( ownerDtoToOwner( carDto.getOwner() ) );
 
-        return car.build();
+        return car;
     }
 
     @Override
