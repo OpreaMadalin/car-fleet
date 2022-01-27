@@ -13,4 +13,5 @@ public interface OwnerMapper {
   OwnerDto ownerToOwnerDto(Owner owner);
 
   List<OwnerDto> ownerToOwnerDtoList(List<Owner> owner);
+
 }

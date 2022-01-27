@@ -23,7 +23,12 @@ public class Car {
   @ManyToOne(cascade = CascadeType.PERSIST)
   private Owner owner;
 
-  public void assignOwner(Owner owner) {
+  public void updateCarOwner(Owner owner) {
     this.owner = owner;
+  }
+
+  public void updateBrandAndModel(String brand, String model) {
+    this.brand = brand;
+    this.model = model;
   }
 }

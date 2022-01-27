@@ -27,40 +27,33 @@ public class CarController {
   public ResponseEntity<String> addCar(@RequestBody CarDto carDto) {
     carService.saveCar(carMapper.carDtoToCar(carDto));
 
-    return new ResponseEntity<>("Saved", HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public List<CarDto> getAllCars() {
-    return carMapper.carToCarDtoList(carService.getAllCars());
+  public List<CarDto> getCars(@RequestParam(value = "brand", required = false) String brand) {
+    return carMapper.carToCarDtoList(carService.findCars(brand));
   }
 
   @GetMapping("/{id}")
   public List<CarDto> getCarById(@PathVariable("id") int id) {
-    return carMapper.carToCarDtoList(carService.getCarById(id));
+    return carMapper.carToCarDtoList(carService.findCarById(id));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteCarById(@PathVariable("id") int id) {
     carService.deleteCarById(id);
 
-    return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<String> updateCarById(
-      @PathVariable("id") int id, @RequestBody CarDto carDto) {
-    carDto.setId(id);
-    carService.updateCarById(carMapper.carDtoToCar(carDto));
+      @PathVariable(value = "id") int carId,
+      @RequestParam(value = "owner", required = false) Integer ownerId,
+      @RequestBody(required = false) CarDto carDto) {
+    carService.updateCarById(carMapper.carDtoToCar(carDto), carId, ownerId);
 
-    return new ResponseEntity<>("Updated", HttpStatus.OK);
-  }
-
-  @PutMapping("/{carId}/ownerId/{ownerId}")
-  public ResponseEntity<String> assignOwnerToCar(
-      @PathVariable("carId") int carId, @PathVariable("ownerId") int ownerId) {
-    carService.assignOwnerToCar(carId, ownerId);
-
-    return new ResponseEntity<>("Assigned", HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }
