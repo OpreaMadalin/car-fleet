@@ -14,13 +14,11 @@ import java.util.Optional;
 public class CarService {
 
   private final CarRepository carRepository;
-
   private final OwnerService ownerService;
 
   @Autowired
   public CarService(CarRepository carRepository, OwnerService ownerService) {
     this.carRepository = carRepository;
-
     this.ownerService = ownerService;
   }
 
@@ -34,8 +32,8 @@ public class CarService {
         : carRepository.findAll();
   }
 
-  public Car findCarById(int id) {
-    return carRepository.findById(id).orElse(null);
+  public Optional<Car> findCarById(int id) {
+    return carRepository.findById(id);
   }
 
   public void deleteCarById(int id) {
@@ -43,14 +41,15 @@ public class CarService {
   }
 
   public void updateCarById(UpdateCar updateCar) {
-    Car car = findCarById(updateCar.getId());
-    car.setModel(updateCar.getModel());
-    car.setBrand(updateCar.getBrand());
-
-    if (updateCar.hasOwnerId()) {
-      Owner owner = ownerService.findById(updateCar.getOwnerId());
-      car.setOwner(owner);
+    Optional<Car> car = findCarById(updateCar.getId());
+    if (car.isPresent()) {
+      car.get().setModel(updateCar.getModel());
+      car.get().setBrand(updateCar.getBrand());
     }
-    carRepository.save(car);
+    if (updateCar.hasOwnerId()) {
+      Optional<Owner> ownerOptional = ownerService.findById(updateCar.getOwnerId());
+      ownerOptional.ifPresent(owner -> car.ifPresent(value -> value.setOwner(owner)));
+    }
+    car.ifPresent(carRepository::save);
   }
 }

@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ro.fortech.carfleet.dto.CarDto;
 import ro.fortech.carfleet.dto.UpdateCarDto;
 import ro.fortech.carfleet.mapper.CarMapper;
+import ro.fortech.carfleet.model.Car;
 import ro.fortech.carfleet.service.CarService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cars")
@@ -37,8 +39,10 @@ public class CarController {
   }
 
   @GetMapping("/{id}")
-  public CarDto getCarById(@PathVariable("id") int id) {
-    return carMapper.carToCarDto(carService.findCarById(id));
+  public Optional<CarDto> getCarById(@PathVariable("id") int id) {
+    Optional<Car> car = carService.findCarById(id);
+
+    return car.map(carMapper::carToCarDto);
   }
 
   @DeleteMapping("/{id}")

@@ -6,6 +6,7 @@ import ro.fortech.carfleet.model.Owner;
 import ro.fortech.carfleet.repository.OwnerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OwnerService {
@@ -25,8 +26,8 @@ public class OwnerService {
     return ownerRepository.findAll();
   }
 
-  public Owner findById(int id) {
-    return ownerRepository.findById(id).orElse(null);
+  public Optional<Owner> findById(int id) {
+    return ownerRepository.findById(id);
   }
 
   public void deleteOwnerById(int id) {

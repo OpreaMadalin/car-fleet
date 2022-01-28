@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.fortech.carfleet.dto.OwnerDto;
 import ro.fortech.carfleet.mapper.OwnerMapper;
+import ro.fortech.carfleet.model.Owner;
 import ro.fortech.carfleet.service.OwnerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/owners")
@@ -36,8 +38,10 @@ public class OwnerController {
   }
 
   @GetMapping("/{id}")
-  public OwnerDto getOwnerById(@PathVariable("id") int id) {
-    return ownerMapper.ownerToOwnerDto(ownerService.findById(id));
+  public Optional<OwnerDto> getOwnerById(@PathVariable("id") int id) {
+    Optional<Owner> owner = ownerService.findById(id);
+
+    return owner.map(ownerMapper::ownerToOwnerDto);
   }
 
   @DeleteMapping("/{id}")

@@ -9,7 +9,7 @@ import ro.fortech.carfleet.model.Owner;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-28T10:09:05+0200",
+    date = "2022-01-28T16:35:20+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
