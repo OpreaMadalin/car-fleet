@@ -27,17 +27,17 @@ public class OwnerController {
   public ResponseEntity<String> addOwner(@RequestBody OwnerDto ownerDto) {
     ownerService.saveOwner(ownerMapper.ownerDtoToOwner(ownerDto));
 
-    return new ResponseEntity<>("Saved", HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public List<OwnerDto> getAllCars() {
+  public List<OwnerDto> getAllOwners() {
     return ownerMapper.ownerToOwnerDtoList(ownerService.getAllOwners());
   }
 
   @GetMapping("/{id}")
-  public List<OwnerDto> getOwnerById(@PathVariable("id") int id) {
-    return ownerMapper.ownerToOwnerDtoList(ownerService.getOwnerById(id));
+  public OwnerDto getOwnerById(@PathVariable("id") int id) {
+    return ownerMapper.ownerToOwnerDto(ownerService.findById(id));
   }
 
   @DeleteMapping("/{id}")
@@ -51,6 +51,6 @@ public class OwnerController {
     ownerDto.setId(id);
     ownerService.updateOwnerById(ownerMapper.ownerDtoToOwner(ownerDto));
 
-    return new ResponseEntity<>("Updated", HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

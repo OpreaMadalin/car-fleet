@@ -5,9 +5,8 @@ import org.springframework.stereotype.Service;
 import ro.fortech.carfleet.model.Car;
 import ro.fortech.carfleet.model.Owner;
 import ro.fortech.carfleet.repository.CarRepository;
-import ro.fortech.carfleet.repository.OwnerRepository;
+import ro.fortech.carfleet.service.business.UpdateCar;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +14,14 @@ import java.util.Optional;
 public class CarService {
 
   private final CarRepository carRepository;
-  private final OwnerRepository ownerRepository;
+
+  private final OwnerService ownerService;
 
   @Autowired
-  public CarService(CarRepository carRepository, OwnerRepository ownerRepository) {
+  public CarService(CarRepository carRepository, OwnerService ownerService) {
     this.carRepository = carRepository;
-    this.ownerRepository = ownerRepository;
+
+    this.ownerService = ownerService;
   }
 
   public void saveCar(Car car) {
@@ -33,35 +34,23 @@ public class CarService {
         : carRepository.findAll();
   }
 
-  public List<Car> findCarById(int id) {
-    return carRepository.findAllById(Collections.singleton(id));
+  public Car findCarById(int id) {
+    return carRepository.findById(id).orElse(null);
   }
 
   public void deleteCarById(int id) {
     carRepository.deleteById(id);
   }
 
-  public void updateCarById(Car car, int carId, Integer ownerId) {
-    if (car == null) {
-      updateCarOwner(carId, ownerId);
-    } else if (ownerId == null) {
-      updateBrandAndModel(carId, car.getBrand(), car.getModel());
-    } else {
-      updateCarOwner(carId, ownerId);
-      updateBrandAndModel(carId, car.getBrand(), car.getModel());
+  public void updateCarById(UpdateCar updateCar) {
+    Car car = findCarById(updateCar.getId());
+    car.setModel(updateCar.getModel());
+    car.setBrand(updateCar.getBrand());
+
+    if (updateCar.hasOwnerId()) {
+      Owner owner = ownerService.findById(updateCar.getOwnerId());
+      car.setOwner(owner);
     }
-  }
-
-  private void updateCarOwner(int carId, int ownerId) {
-    Car car = carRepository.getById(carId);
-    Owner owner = ownerRepository.getById(ownerId);
-    car.updateCarOwner(owner);
-    carRepository.save(car);
-  }
-
-  private void updateBrandAndModel(int id, String brand, String model) {
-    Car car = carRepository.getById(id);
-    car.updateBrandAndModel(brand, model);
     carRepository.save(car);
   }
 }

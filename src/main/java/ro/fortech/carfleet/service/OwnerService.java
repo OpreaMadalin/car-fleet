@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import ro.fortech.carfleet.model.Owner;
 import ro.fortech.carfleet.repository.OwnerRepository;
 
-import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,11 +25,10 @@ public class OwnerService {
     return ownerRepository.findAll();
   }
 
-  public List<Owner> getOwnerById(int id) {
-    return ownerRepository.findAllById(Collections.singleton(id));
+  public Owner findById(int id) {
+    return ownerRepository.findById(id).orElse(null);
   }
 
-  @Transactional
   public void deleteOwnerById(int id) {
     ownerRepository.deleteById(id);
   }

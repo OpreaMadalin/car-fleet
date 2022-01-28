@@ -6,12 +6,14 @@ import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import ro.fortech.carfleet.dto.CarDto;
 import ro.fortech.carfleet.dto.OwnerDto;
+import ro.fortech.carfleet.dto.UpdateCarDto;
 import ro.fortech.carfleet.model.Car;
 import ro.fortech.carfleet.model.Owner;
+import ro.fortech.carfleet.service.business.UpdateCar;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-27T15:20:11+0200",
+    date = "2022-01-28T10:09:05+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -50,7 +52,7 @@ public class CarMapperImpl implements CarMapper {
     }
 
     @Override
-    public List<CarDto> carToCarDtoList(List<Car> car) {
+    public List<CarDto> listCarToListCarDto(List<Car> car) {
         if ( car == null ) {
             return null;
         }
@@ -61,6 +63,22 @@ public class CarMapperImpl implements CarMapper {
         }
 
         return list;
+    }
+
+    @Override
+    public UpdateCar updateCarDtoToUpdateCar(UpdateCarDto updateCarDto) {
+        if ( updateCarDto == null ) {
+            return null;
+        }
+
+        UpdateCar updateCar = new UpdateCar();
+
+        updateCar.setId( updateCarDto.getId() );
+        updateCar.setBrand( updateCarDto.getBrand() );
+        updateCar.setModel( updateCarDto.getModel() );
+        updateCar.setOwnerId( updateCarDto.getOwnerId() );
+
+        return updateCar;
     }
 
     protected Owner ownerDtoToOwner(OwnerDto ownerDto) {
