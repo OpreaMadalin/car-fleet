@@ -12,5 +12,5 @@ public class UpdateCarDto {
   private int id;
   private String brand;
   private String model;
-  private int ownerId;
+  private int clientId;
 }

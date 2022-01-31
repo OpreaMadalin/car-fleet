@@ -12,5 +12,5 @@ public class CarDto {
   private int id;
   private String brand;
   private String model;
-  private OwnerDto owner;
+  private ClientDto client;
 }

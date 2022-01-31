@@ -12,9 +12,9 @@ public class UpdateCar {
   private int id;
   private String brand;
   private String model;
-  private int ownerId;
+  private int clientId;
 
-  public boolean hasOwnerId() {
-    return ownerId > 0;
+  public boolean hasClientId() {
+    return clientId > 0;
   }
 }

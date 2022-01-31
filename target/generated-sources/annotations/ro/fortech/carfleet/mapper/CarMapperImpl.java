@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
+import ro.fortech.carfleet.dto.AddressDto;
 import ro.fortech.carfleet.dto.CarDto;
-import ro.fortech.carfleet.dto.OwnerDto;
+import ro.fortech.carfleet.dto.ClientDto;
 import ro.fortech.carfleet.dto.UpdateCarDto;
+import ro.fortech.carfleet.model.Address;
 import ro.fortech.carfleet.model.Car;
-import ro.fortech.carfleet.model.Owner;
+import ro.fortech.carfleet.model.Client;
 import ro.fortech.carfleet.service.business.UpdateCar;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-28T16:35:20+0200",
+    date = "2022-01-31T12:19:56+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -30,7 +32,7 @@ public class CarMapperImpl implements CarMapper {
         car.setId( carDto.getId() );
         car.setBrand( carDto.getBrand() );
         car.setModel( carDto.getModel() );
-        car.setOwner( ownerDtoToOwner( carDto.getOwner() ) );
+        car.setClient( clientDtoToClient( carDto.getClient() ) );
 
         return car;
     }
@@ -46,7 +48,7 @@ public class CarMapperImpl implements CarMapper {
         carDto.setId( car.getId() );
         carDto.setBrand( car.getBrand() );
         carDto.setModel( car.getModel() );
-        carDto.setOwner( ownerToOwnerDto( car.getOwner() ) );
+        carDto.setClient( clientToClientDto( car.getClient() ) );
 
         return carDto;
     }
@@ -76,36 +78,68 @@ public class CarMapperImpl implements CarMapper {
         updateCar.setId( updateCarDto.getId() );
         updateCar.setBrand( updateCarDto.getBrand() );
         updateCar.setModel( updateCarDto.getModel() );
-        updateCar.setOwnerId( updateCarDto.getOwnerId() );
+        updateCar.setClientId( updateCarDto.getClientId() );
 
         return updateCar;
     }
 
-    protected Owner ownerDtoToOwner(OwnerDto ownerDto) {
-        if ( ownerDto == null ) {
+    protected Address addressDtoToAddress(AddressDto addressDto) {
+        if ( addressDto == null ) {
             return null;
         }
 
-        Owner owner = new Owner();
+        Address address = new Address();
 
-        owner.setId( ownerDto.getId() );
-        owner.setAge( ownerDto.getAge() );
-        owner.setName( ownerDto.getName() );
+        address.setId( addressDto.getId() );
+        address.setStreetNumber( addressDto.getStreetNumber() );
+        address.setStreetName( addressDto.getStreetName() );
+        address.setCountry( addressDto.getCountry() );
 
-        return owner;
+        return address;
     }
 
-    protected OwnerDto ownerToOwnerDto(Owner owner) {
-        if ( owner == null ) {
+    protected Client clientDtoToClient(ClientDto clientDto) {
+        if ( clientDto == null ) {
             return null;
         }
 
-        OwnerDto ownerDto = new OwnerDto();
+        Client client = new Client();
 
-        ownerDto.setId( owner.getId() );
-        ownerDto.setAge( owner.getAge() );
-        ownerDto.setName( owner.getName() );
+        client.setId( clientDto.getId() );
+        client.setAge( clientDto.getAge() );
+        client.setName( clientDto.getName() );
+        client.setAddress( addressDtoToAddress( clientDto.getAddress() ) );
 
-        return ownerDto;
+        return client;
+    }
+
+    protected AddressDto addressToAddressDto(Address address) {
+        if ( address == null ) {
+            return null;
+        }
+
+        AddressDto addressDto = new AddressDto();
+
+        addressDto.setId( address.getId() );
+        addressDto.setStreetNumber( address.getStreetNumber() );
+        addressDto.setStreetName( address.getStreetName() );
+        addressDto.setCountry( address.getCountry() );
+
+        return addressDto;
+    }
+
+    protected ClientDto clientToClientDto(Client client) {
+        if ( client == null ) {
+            return null;
+        }
+
+        ClientDto clientDto = new ClientDto();
+
+        clientDto.setId( client.getId() );
+        clientDto.setAge( client.getAge() );
+        clientDto.setName( client.getName() );
+        clientDto.setAddress( addressToAddressDto( client.getAddress() ) );
+
+        return clientDto;
     }
 }

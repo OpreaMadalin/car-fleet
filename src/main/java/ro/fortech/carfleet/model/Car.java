@@ -21,5 +21,5 @@ public class Car {
   private String model;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
-  private Owner owner;
+  private Client client;
 }
