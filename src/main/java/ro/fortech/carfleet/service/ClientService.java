@@ -22,11 +22,11 @@ public class ClientService {
     this.addressService = addressService;
   }
 
-  public void saveClient(Client client) {
+  public void save(Client client) {
     clientRepository.save(client);
   }
 
-  public List<Client> getAllClients() {
+  public List<Client> findAll() {
     return clientRepository.findAll();
   }
 
@@ -34,20 +34,18 @@ public class ClientService {
     return clientRepository.findById(id);
   }
 
-  public void deleteClientById(int id) {
+  public void deleteById(int id) {
     clientRepository.deleteById(id);
   }
 
-  public void updateClientById(UpdateClient updateClient) {
+  public void updateById(UpdateClient updateClient) {
     Optional<Client> client = findById(updateClient.getId());
+    Optional<Address> address = addressService.findById(updateClient.getAddressId());
     if (client.isPresent()) {
       client.get().setAge(updateClient.getAge());
       client.get().setName(updateClient.getName());
+      address.ifPresent(value -> client.get().setAddress(value));
+      clientRepository.save(client.get());
     }
-    if (updateClient.hasAddressId()) {
-      Optional<Address> optionalAddress = addressService.findById(updateClient.getAddressId());
-      optionalAddress.ifPresent(address -> client.ifPresent(value -> value.setAddress(address)));
-    }
-    client.ifPresent(clientRepository::save);
   }
 }

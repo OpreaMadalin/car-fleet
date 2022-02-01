@@ -1,5 +1,6 @@
 package ro.fortech.carfleet.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.fortech.carfleet.model.Address;
 import ro.fortech.carfleet.repository.AddressRepository;
@@ -12,23 +13,26 @@ public class AddressService {
 
   private final AddressRepository addressRepository;
 
+  @Autowired
   public AddressService(AddressRepository addressRepository) {
     this.addressRepository = addressRepository;
   }
 
-  public void addAddress(Address address) {
+  public void save(Address address) {
     addressRepository.save(address);
   }
 
-  public List<Address> findAddress() {
-    return addressRepository.findAll();
+  public List<Address> findAll(String country) {
+    return Optional.ofNullable(country).isPresent()
+        ? addressRepository.findByCountry(country)
+        : addressRepository.findAll();
   }
 
   public Optional<Address> findById(int id) {
     return addressRepository.findById(id);
   }
 
-  public void deleteAddressById(int id) {
+  public void deleteById(int id) {
     addressRepository.deleteById(id);
   }
 }

@@ -15,7 +15,7 @@ import ro.fortech.carfleet.service.business.UpdateCar;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-31T12:19:56+0200",
+    date = "2022-01-31T17:55:30+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component

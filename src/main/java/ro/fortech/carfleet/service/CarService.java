@@ -22,34 +22,32 @@ public class CarService {
     this.clientService = clientService;
   }
 
-  public void saveCar(Car car) {
+  public void save(Car car) {
     carRepository.save(car);
   }
 
-  public List<Car> findCars(String brand) {
+  public List<Car> findAll(String brand) {
     return Optional.ofNullable(brand).isPresent()
         ? carRepository.findByBrand(brand)
         : carRepository.findAll();
   }
 
-  public Optional<Car> findCarById(int id) {
+  public Optional<Car> findById(int id) {
     return carRepository.findById(id);
   }
 
-  public void deleteCarById(int id) {
+  public void deleteById(int id) {
     carRepository.deleteById(id);
   }
 
-  public void updateCarById(UpdateCar updateCar) {
-    Optional<Car> car = findCarById(updateCar.getId());
+  public void updateById(UpdateCar updateCar) {
+    Optional<Car> car = findById(updateCar.getId());
+    Optional<Client> client = clientService.findById(updateCar.getClientId());
     if (car.isPresent()) {
-      car.get().setModel(updateCar.getModel());
       car.get().setBrand(updateCar.getBrand());
+      car.get().setModel(updateCar.getModel());
+      client.ifPresent(value -> car.get().setClient(value));
+      carRepository.save(car.get());
     }
-    if (updateCar.hasClientId()) {
-      Optional<Client> optionalClient = clientService.findById(updateCar.getClientId());
-      optionalClient.ifPresent(client -> car.ifPresent(value -> value.setClient(client)));
-    }
-    car.ifPresent(carRepository::save);
   }
 }

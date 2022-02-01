@@ -13,7 +13,7 @@ import ro.fortech.carfleet.service.business.UpdateClient;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-31T12:19:55+0200",
+    date = "2022-01-31T17:55:52+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -52,7 +52,7 @@ public class ClientMapperImpl implements ClientMapper {
     }
 
     @Override
-    public List<ClientDto> listClientToListClientDto(List<Client> client) {
+    public List<ClientDto> clientToClientDto(List<Client> client) {
         if ( client == null ) {
             return null;
         }

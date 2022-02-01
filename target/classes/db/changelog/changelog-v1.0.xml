@@ -5,7 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
-
     <changeSet id="1" author="Madalin">
         <createTable tableName="cars">
             <column name="id" type="integer" autoIncrement="true">
@@ -15,54 +14,26 @@
             <column name="model" type="varchar(255)"/>
             <column name="client_id" type="integer"/>
         </createTable>
+    </changeSet>
 
-        <createTable tableName="client">
+    <changeSet id="2" author="Madalin">
+        <createTable tableName="clients">
             <column name="id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="age" type="integer"/>
             <column name="name" type="varchar(255)"/>
+            <column name="address_id" type="integer"/>
         </createTable>
-
-        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_car2client"
-                                 referencedTableName="client"
-                                 referencedColumnNames="id" onDelete="SET NULL"/>
-    </changeSet>
-
-
-    <changeSet id="2" author="Madalin">
-        <dropForeignKeyConstraint baseTableName="cars" constraintName="fk_car2client"/>
-
-        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_car2client"
-                                 referencedTableName="client"
-                                 referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="3" author="Madalin">
-        <dropForeignKeyConstraint baseTableName="cars" constraintName="fk_car2client"/>
-
-        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_car2client"
-                                 referencedTableName="client"
-                                 referencedColumnNames="id" onDelete="CASCADE"/>
-    </changeSet>
-
-    <changeSet id="4" author="Madalin">
-        <dropForeignKeyConstraint baseTableName="cars" constraintName="fk_car2client"/>
-
-        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_car2client"
-                                 referencedTableName="client"
-                                 referencedColumnNames="id" onDelete="SET DEFAULT"/>
-    </changeSet>
-
-    <changeSet id="5" author="Madalin">
-        <dropForeignKeyConstraint baseTableName="cars" constraintName="fk_car2client"/>
-
-        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_car2client"
-                                 referencedTableName="client"
+        <addForeignKeyConstraint baseTableName="cars" baseColumnNames="client_id" constraintName="fk_cars2clients"
+                                 referencedTableName="clients"
                                  referencedColumnNames="id" onDelete="SET NULL"/>
     </changeSet>
 
-    <changeSet id="6" author="Madalin">
+    <changeSet id="4" author="Madalin">
         <createTable tableName="address">
             <column name="id" type="integer" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -73,22 +44,9 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="7" author="Madalin">
-        <addColumn tableName="client">
-            <column name="address_id" type="integer">
-            </column>
-        </addColumn>
-    </changeSet>
-
-    <changeSet id="8" author="Madalin">
-        <addForeignKeyConstraint baseTableName="client" baseColumnNames="address_id" constraintName="fk_client2address"
-                                 referencedTableName="address"
-                                 referencedColumnNames="id" onDelete="SET DEFAULT"/>
-    </changeSet>
-
-    <changeSet id="9" author="Madalin">
-        <dropForeignKeyConstraint baseTableName="client" constraintName="fk_client2address"/>
-        <addForeignKeyConstraint baseTableName="client" baseColumnNames="address_id" constraintName="fk_client2address"
+    <changeSet id="5" author="Madalin">
+        <addForeignKeyConstraint baseTableName="clients" baseColumnNames="address_id"
+                                 constraintName="fk_clients2address"
                                  referencedTableName="address"
                                  referencedColumnNames="id" onDelete="SET NULL"/>
     </changeSet>

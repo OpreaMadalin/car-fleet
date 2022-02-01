@@ -9,7 +9,7 @@ import ro.fortech.carfleet.model.Address;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-01-31T12:19:56+0200",
+    date = "2022-01-31T17:55:52+0200",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.1 (Oracle Corporation)"
 )
 @Component
@@ -32,20 +32,20 @@ public class AddressMapperImpl implements AddressMapper {
     }
 
     @Override
-    public List<AddressDto> addressListToAddressDtoList(List<Address> addressDto) {
-        if ( addressDto == null ) {
+    public List<AddressDto> addressToAddressDto(List<Address> address) {
+        if ( address == null ) {
             return null;
         }
 
-        List<AddressDto> list = new ArrayList<AddressDto>( addressDto.size() );
-        for ( Address address : addressDto ) {
-            list.add( addressToAddressDto( address ) );
+        List<AddressDto> list = new ArrayList<AddressDto>( address.size() );
+        for ( Address address1 : address ) {
+            list.add( addressToAddressDto1( address1 ) );
         }
 
         return list;
     }
 
-    protected AddressDto addressToAddressDto(Address address) {
+    protected AddressDto addressToAddressDto1(Address address) {
         if ( address == null ) {
             return null;
         }

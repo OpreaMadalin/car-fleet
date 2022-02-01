@@ -24,20 +24,21 @@ public class AddressController {
   }
 
   @PostMapping
-  public ResponseEntity<String> saveAddress(@RequestBody AddressDto addressDto) {
-    addressService.addAddress(addressMapper.addressDtoToAddress(addressDto));
+  public ResponseEntity<String> save(@RequestBody AddressDto addressDto) {
+    addressService.save(addressMapper.addressDtoToAddress(addressDto));
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public List<AddressDto> getAddress() {
-    return addressMapper.addressListToAddressDtoList(addressService.findAddress());
+  public List<AddressDto> findAll(
+      @RequestParam(value = "country", required = false) String country) {
+    return addressMapper.addressToAddressDto(addressService.findAll(country));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteById(@PathVariable("id") int id) {
-    addressService.deleteAddressById(id);
+    addressService.deleteById(id);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

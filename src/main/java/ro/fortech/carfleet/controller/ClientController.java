@@ -27,34 +27,34 @@ public class ClientController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addClient(@RequestBody ClientDto clientDto) {
-    clientService.saveClient(clientMapper.clientDtoToClient(clientDto));
+  public ResponseEntity<String> save(@RequestBody ClientDto clientDto) {
+    clientService.save(clientMapper.clientDtoToClient(clientDto));
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public List<ClientDto> findAllClients() {
-    return clientMapper.listClientToListClientDto(clientService.getAllClients());
+  public List<ClientDto> findAll() {
+    return clientMapper.clientToClientDto(clientService.findAll());
   }
 
   @GetMapping("/{id}")
-  public Optional<ClientDto> findClientById(@PathVariable("id") int id) {
+  public Optional<ClientDto> findById(@PathVariable("id") int id) {
     Optional<Client> client = clientService.findById(id);
 
     return client.map(clientMapper::clientToClientDto);
   }
 
   @DeleteMapping("/{id}")
-  public void deleteClientById(@PathVariable("id") int id) {
-    clientService.deleteClientById(id);
+  public void deleteById(@PathVariable("id") int id) {
+    clientService.deleteById(id);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<String> updateClientById(
+  public ResponseEntity<String> updateById(
       @PathVariable("id") int id, @RequestBody UpdateClientDto updateClientDto) {
     updateClientDto.setId(id);
-    clientService.updateClientById(clientMapper.updateClientDtoToUpdateClient(updateClientDto));
+    clientService.updateById(clientMapper.updateClientDtoToUpdateClient(updateClientDto));
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

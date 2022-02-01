@@ -27,36 +27,36 @@ public class CarController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addCar(@RequestBody CarDto carDto) {
-    carService.saveCar(carMapper.carDtoToCar(carDto));
+  public ResponseEntity<String> save(@RequestBody CarDto carDto) {
+    carService.save(carMapper.carDtoToCar(carDto));
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping
-  public List<CarDto> getCars(@RequestParam(value = "brand", required = false) String brand) {
-    return carMapper.listCarToListCarDto(carService.findCars(brand));
+  public List<CarDto> findAll(@RequestParam(value = "brand", required = false) String brand) {
+    return carMapper.listCarToListCarDto(carService.findAll(brand));
   }
 
   @GetMapping("/{id}")
-  public Optional<CarDto> getCarById(@PathVariable("id") int id) {
-    Optional<Car> car = carService.findCarById(id);
+  public Optional<CarDto> findById(@PathVariable("id") int id) {
+    Optional<Car> car = carService.findById(id);
 
     return car.map(carMapper::carToCarDto);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteCarById(@PathVariable("id") int id) {
-    carService.deleteCarById(id);
+  public ResponseEntity<String> deleteById(@PathVariable("id") int id) {
+    carService.deleteById(id);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<String> updateCarById(
+  public ResponseEntity<String> updateById(
       @PathVariable(value = "id") int carId, @RequestBody UpdateCarDto updateCarDto) {
     updateCarDto.setId(carId);
-    carService.updateCarById(carMapper.updateCarDtoToUpdateCar(updateCarDto));
+    carService.updateById(carMapper.updateCarDtoToUpdateCar(updateCarDto));
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
